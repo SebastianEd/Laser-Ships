@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include "Singleton.h"
 #include "Timer.h"
 
@@ -9,16 +10,24 @@
 class CFramework : public TSingleton<CFramework> {
 
 public: 
-	bool Init(int ScreenWidth, int ScreenHeight, int ColorDepth, bool bFullscreen);
+	bool Init(int ScreenWidth, int ScreenHeight, bool bFullscreen);
 	void Quit();
+	void pollEvents();
+
+	inline bool isClosed() const {
+		return m_Closed;
+	}
+
+
 	void Update();
 	void Clear();
 	void Flip();
 	bool KeyDown(int Key_ID);
-	SDL_Surface *GetScreen() { return m_pScreen; };
 
 private:
-	SDL_Surface *m_pScreen;		//Surface for Screen
-	Uint8 *m_pKeystate;			//Array for current keyboard status
+	std::string m_Title = "Laser-Ships";			//Title of the Game
+	SDL_Window *m_pWindow = nullptr;				//Pointer on the Window					
+	SDL_Renderer *m_pRenderer = nullptr;			//Pointer on renderer
+	bool m_Closed = false;
 
 };

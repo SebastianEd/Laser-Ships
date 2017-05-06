@@ -1,11 +1,17 @@
-#include <SDL.h>
-#include <SDL_image.h>
+#include "Framework.h"
 #include <iostream>
 
 int main(int argc, char **argv) {
 
-	std::cout << "Hello World!\n";
+	CFramework window;
 
-	system("PAUSE");
+	window.Init(800, 600, false);
+
+	while (!window.isClosed()) {
+		window.pollEvents();
+	}
+
+
+
 	return 0;	
 }
