@@ -2,32 +2,43 @@
 
 #include <iostream>
 #include <string>
+#include <SDL.h>
+#include <SDL_image.h>
+
 #include "Singleton.h"
 #include "Timer.h"
 
-#define g_pFramework CFramework::Get ()
+#define g_pFramework CFramework::Get()
 
 class CFramework : public TSingleton<CFramework> {
 
 public: 
-	bool Init(int ScreenWidth, int ScreenHeight, bool bFullscreen);
-	void Quit();
+
+	CFramework() {};
+	CFramework(int ScreenWidth, int ScreenHeight, bool bFullscreen);
+	~CFramework();
+
 	void pollEvents();
+	void Clear() const;
 
-	inline bool isClosed() const {
-		return m_Closed;
-	}
+	inline bool isClosed() const {return m_Closed;}
 
-
-	void Update();
-	void Clear();
-	void Flip();
-	bool KeyDown(int Key_ID);
 
 private:
+	bool Init();								
+
+
 	std::string m_Title = "Laser-Ships";			//Title of the Game
 	SDL_Window *m_pWindow = nullptr;				//Pointer on the Window					
+	
+	bool m_Closed = false;							//Window closed?
+	int m_ScreenWidth;
+	int m_ScreenHeight;
+	bool m_Fullscreen;								//Fullscreen mode?
+
+
+
+protected:
 	SDL_Renderer *m_pRenderer = nullptr;			//Pointer on renderer
-	bool m_Closed = false;
 
 };
