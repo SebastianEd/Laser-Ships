@@ -3,6 +3,8 @@
 #include "LoadSprites.h"
 #include "Framework.h"
 
+#define max_ColumnPlayer 4		//Defines the Number of Columns of the Player Sprite
+
 
 class CPlayer : public CFramework {
 
@@ -15,12 +17,13 @@ public:
 	void PlayerMoving();
 
 
+
 private:
 
+	void PlayerCheckPosition(int ScreenWidht, int ScreenHeight);
 	void PlayerAnimation();
 
 	const Uint8 *keyState;
-
 	CSprite *m_pPlayer = nullptr;
 
 	//MoveSpeed and AnimationPhase
@@ -35,8 +38,8 @@ private:
 	int m_RectPosition_y;
 
 	//Position on the Screen
-	float m_PlayerPostion_x = 0;
-	float m_PlayerPostion_y = 0;
+	float m_fPlayerPostion_x = 0;
+	float m_fPlayerPostion_y = 0;
 
 	//Column and Row of the Animation Sprite
 	int m_Column;

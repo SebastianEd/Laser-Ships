@@ -9,9 +9,10 @@ int main(int argc, char **argv) {
 
 	CFramework window(1080, 720, false);
 	CSprite sprite(window, 120, 120, 100, 100, 200, 0, 200, 255);
-	CPlayer Player(window, 3, 3, 32, 48);
+	CPlayer Player(window, 1, 1, 32, 48);
 
-	Player.PlayerPostion(50, 50);
+	Player.PlayerPostion(492, 328);
+
 
 	while (!window.isClosed()) {
 		

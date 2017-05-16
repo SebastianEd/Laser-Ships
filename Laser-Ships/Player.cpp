@@ -26,21 +26,21 @@ void CPlayer::PlayerRender() {
 //
 void CPlayer::PlayerPostion(float fPos_x, float fPos_y) {
 
-	m_PlayerPostion_x = fPos_x;
-	m_PlayerPostion_y = fPos_y;
+	m_fPlayerPostion_x = fPos_x;
+	m_fPlayerPostion_y = fPos_y;
 
-	m_pPlayer->setSpritePosition(m_PlayerPostion_x, m_PlayerPostion_y);
+	m_pPlayer->setSpritePosition(m_fPlayerPostion_x, m_fPlayerPostion_y);
 
 }//PlayerPosition
 
 
 void CPlayer::PlayerAnimation() {
 	
-	if (m_fAnimationPhase >= 5.0f) {
-		m_fAnimationPhase = m_fAnimationPhase - 4.0f;
+	if (m_fAnimationPhase >= max_ColumnPlayer + 1) {
+		m_fAnimationPhase = m_fAnimationPhase - max_ColumnPlayer;
 	}
 
-	if (m_Column >= 5) {
+	if (m_Column >= max_ColumnPlayer + 1) {
 		m_Column = 1;
 	}
 	else {
@@ -56,44 +56,76 @@ void CPlayer::PlayerAnimation() {
 //
 void CPlayer::PlayerMoving() {
 
-
 	keyState = SDL_GetKeyboardState(NULL);
 
+	PlayerCheckPosition(1080, 720);
+
+
+	//Pressing Right Key
+	//Move Right Direction
 	if (keyState[SDL_SCANCODE_RIGHT]){
 		
-		m_PlayerPostion_x += (m_fMoveSpeed * g_pTimer->GetElapsed());
 		m_Row = 3;
-
+		m_fPlayerPostion_x += (m_fMoveSpeed * g_pTimer->GetElapsed());
 		PlayerAnimation();
-
-		m_pPlayer->setSpritePosition(static_cast<int>(m_PlayerPostion_x), static_cast<int>(m_PlayerPostion_y));
+		m_pPlayer->setSpritePosition(static_cast<int>(m_fPlayerPostion_x), static_cast<int>(m_fPlayerPostion_y));
 	}
 
+	//Pressing Left Key
+	//Move Left Direction
 	if (keyState[SDL_SCANCODE_LEFT]) {
-		m_PlayerPostion_x -= m_fMoveSpeed * g_pTimer->GetElapsed();
+		m_fPlayerPostion_x -= m_fMoveSpeed * g_pTimer->GetElapsed();
 		m_Row = 2;
 
 		PlayerAnimation();
 
-		m_pPlayer->setSpritePosition(m_PlayerPostion_x, m_PlayerPostion_y);
+		m_pPlayer->setSpritePosition(m_fPlayerPostion_x, m_fPlayerPostion_y);
 	}
 
+	//Pressing Up Key
+	//Move Up Direction
 	if (keyState[SDL_SCANCODE_UP]) {
-		m_PlayerPostion_y -= m_fMoveSpeed *  g_pTimer->GetElapsed();
+		m_fPlayerPostion_y -= m_fMoveSpeed *  g_pTimer->GetElapsed();
 		m_Row = 4;
 
 		PlayerAnimation();
 
-		m_pPlayer->setSpritePosition(m_PlayerPostion_x, m_PlayerPostion_y);
+		m_pPlayer->setSpritePosition(m_fPlayerPostion_x, m_fPlayerPostion_y);
 	}
 
+	//Pressing Down Key
+	//Move Down Direction
 	if (keyState[SDL_SCANCODE_DOWN]) {
-		m_PlayerPostion_y += m_fMoveSpeed *  g_pTimer->GetElapsed();
+		m_fPlayerPostion_y += m_fMoveSpeed *  g_pTimer->GetElapsed();
 		m_Row = 1;
 
 		PlayerAnimation();
 
-		m_pPlayer->setSpritePosition(m_PlayerPostion_x, m_PlayerPostion_y);
+		m_pPlayer->setSpritePosition(m_fPlayerPostion_x, m_fPlayerPostion_y);
 	}
 
 }//PlayerMoving
+
+//PlayerCheckPosition
+//
+//Checks if Player is out of Screen
+//
+void CPlayer::PlayerCheckPosition(int ScreenWidht, int ScreenHeight) {
+
+	//Checks left and right borders
+	if (m_fPlayerPostion_x < 0.0f) {
+		m_fPlayerPostion_x = 0.0f;
+	}
+	else if (m_fPlayerPostion_x > (ScreenWidht - m_FrameWidth)) {
+		m_fPlayerPostion_x = (ScreenWidht - m_FrameWidth);
+	}
+
+	//Checks top and bottom borders
+	if (m_fPlayerPostion_y < 0) {
+		m_fPlayerPostion_y = 0.0f;
+	}
+	else if (m_fPlayerPostion_y > (ScreenHeight - m_FrameHeight)) {
+		m_fPlayerPostion_y = (ScreenHeight - m_FrameHeight);
+	}
+
+}//PlayerCheckPosition

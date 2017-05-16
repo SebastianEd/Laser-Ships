@@ -20,13 +20,14 @@ public:
 
 	void pollEvents();
 	void Clear() const;
+	int getScreenWidth() const { return m_ScreenWidth; };
+	int getScreenHeight() const { return m_ScreenHeight; };
 
 	inline bool isClosed() const {return m_Closed;}
 
 
 private:
 	bool Init();								
-
 
 	std::string m_Title = "Laser-Ships";			//Title of the Game
 	SDL_Window *m_pWindow = nullptr;				//Pointer on the Window					
