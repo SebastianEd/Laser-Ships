@@ -2,6 +2,8 @@
 
 #include "LoadSprites.h"
 #include "Framework.h"
+#include "Laser.h"
+#include <list>
 
 #define max_ColumnPlayer 4		//Defines the Number of Columns of the Player Sprite
 
@@ -11,20 +13,29 @@ class CPlayer : public CFramework {
 public:
 
 	CPlayer(const CFramework &framework, int PlayerPostion_x, int PlayerPostion_y, int FrameWidth, int FrameHeight);
-	
-	void PlayerPostion(float fPos_x, float fPos_y);
-	void PlayerRender();
-	void PlayerMoving();
+	~CPlayer();
 
+	void PlayerPostion(float fPos_x, float fPos_y);
+	void PlayerUpdate();
 
 
 private:
+
+	void PlayerRender();
+	void PlayerMoving();
+	void PlayerShooting();
 
 	void PlayerCheckPosition(int ScreenWidht, int ScreenHeight);
 	void PlayerAnimation();
 
 	const Uint8 *keyState;
 	CSprite *m_pPlayer = nullptr;
+	CSprite *m_pLaser = nullptr;
+
+	bool m_bShotLock;
+	char m_look_direction = 'r';
+
+	std::list<CLaser> m_LaserList;
 
 	//MoveSpeed and AnimationPhase
 	float m_fMoveSpeed = 300.0f;

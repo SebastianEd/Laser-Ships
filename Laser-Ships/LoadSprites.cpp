@@ -2,21 +2,10 @@
 
 //Construtor
 //
-//Construct Rect
-//
-CSprite::CSprite(const CFramework &framework, int w, int h, int x, int y, int r, int g, int b, int a) :
-	CFramework(framework), _w(w), _h(h), _x(x), _y(y), _r(r), _g(g), _b(b), _a(a)
-{
-
-}//Construct Rect
-
-
-//Construtor
-//
 //ConstructImage
 //
-CSprite::CSprite(const CFramework &framework, int w, int h, int x, int y, const std::string &image_path) :
-	CFramework(framework), _w(w), _h(h), _x(x), _y(y)
+CSprite::CSprite(const CFramework &framework, int FrameWidth, int FrameHeight, const std::string &image_path) :
+	CFramework(framework)
 {
 	SDL_Surface  *surface = IMG_Load(image_path.c_str());
 	if (!surface) {
@@ -28,6 +17,10 @@ CSprite::CSprite(const CFramework &framework, int w, int h, int x, int y, const 
 		std::cerr << "Failed to create Texture.\n";
 	}
 
+	m_AnimationRect.w = FrameWidth;
+	m_rectPosition.w = FrameWidth;
+	m_AnimationRect.h = FrameHeight;
+	m_rectPosition.h = FrameHeight;
 
 	SDL_FreeSurface(surface);
 }//ConstructImage
@@ -43,29 +36,26 @@ CSprite::~CSprite() {
 
 //drawWithoutAnimation
 //
-void CSprite::drawWithoutAnimation() const {
+void CSprite::drawWithoutAnimation(SDL_Rect rect) {
 
-	SDL_Rect rect = { _x, _y, _w, _h };
+	m_rectPosition = rect;
 
-	if(m_pTexture){
+	if (m_pTexture == nullptr) {
+		std::cerr << "Couldn't find texture.\n";
+	}
 		SDL_RenderCopy(m_pRenderer, m_pTexture, nullptr, &rect);
-	}
-	else{
-	SDL_SetRenderDrawColor(m_pRenderer, _r, _g, _b, _a);
-	SDL_RenderFillRect(m_pRenderer, &rect);
-	}
+	
 }//drawWihtouAnimation
 
 
 //drawWithAnimation
 //
-void CSprite::drawWithAnimation(int m_RectPosition_x, int m_RectPosition_y, int FrameWidth, int FrameHeight) {
+void CSprite::drawWithAnimation(int m_RectPosition_x, int m_RectPosition_y) {
 
-
-		SDL_Rect rect = { _x, _y, _w, _h };
-		m_AnimationRect = { m_RectPosition_x, m_RectPosition_y,  FrameWidth, FrameHeight};
-		m_rectPosition = { m_SpritePosition_x, m_SpritePosition_y,  FrameWidth, FrameHeight};
-
+		m_AnimationRect.x = m_RectPosition_x;
+		m_AnimationRect.y = m_RectPosition_y;
+		m_rectPosition.x = m_SpritePosition_x;
+		m_rectPosition.y = m_SpritePosition_y;
 		if (m_pTexture) {
 			SDL_RenderCopy(m_pRenderer, m_pTexture, &m_AnimationRect, &m_rectPosition);
 
@@ -77,10 +67,10 @@ void CSprite::drawWithAnimation(int m_RectPosition_x, int m_RectPosition_y, int 
 //
 //Sets the Position of the Sprite on the Screen
 //
-void CSprite::setSpritePosition(int Pos_x, int Pos_y) {
+void CSprite::setSpritePosition(float Pos_x, float Pos_y) {
 
-	m_SpritePosition_x = Pos_x;
-	m_SpritePosition_y = Pos_y;
+	m_SpritePosition_x = static_cast<int>(Pos_x);
+	m_SpritePosition_y = static_cast<int>(Pos_y);
 
 }//setSpritePosition
 

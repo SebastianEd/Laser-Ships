@@ -6,9 +6,47 @@ CPlayer::CPlayer(const CFramework &framework, int Column, int Row, int FrameWidt
 	CFramework(framework), m_FrameWidth(FrameWidth), m_FrameHeight(FrameHeight), m_Column(Column), m_Row(Row), m_fAnimationPhase(Column)
 {
 
-	m_pPlayer = new CSprite(framework, 0, 0, 0, 0, "resources/NPC 02.png");
+	m_pPlayer = new CSprite(framework, FrameWidth, FrameHeight,  "resources/NPC 02.png");
+	m_pLaser = new CSprite(framework, 0, 0, "resources/Laser.png");
+
+	keyState = SDL_GetKeyboardState(NULL);
 
 }//Constructor
+
+
+
+
+//Destructor
+//
+CPlayer::~CPlayer() {
+
+	if (m_pPlayer != nullptr) {
+		delete (m_pPlayer);
+		m_pPlayer = nullptr;
+	}
+
+	if (m_pLaser != nullptr) {
+		delete (m_pLaser);
+		m_pLaser = nullptr;
+	}
+
+}//Destructor
+
+
+
+
+//PlayerUpdate
+//
+//Updates player functions like moving, shooting and rendering
+//
+void CPlayer::PlayerUpdate() {
+	PlayerMoving();
+	PlayerShooting();
+	PlayerRender();
+
+}//PlayerUpdate
+
+
 
 
 //PlayerRender
@@ -18,9 +56,36 @@ void CPlayer::PlayerRender() {
 	m_RectPosition_x = m_FrameWidth * (m_Column - 1);
 	m_RectPosition_y = m_FrameHeight * (m_Row - 1);
 
-	m_pPlayer->drawWithAnimation(m_RectPosition_x, m_RectPosition_y, m_FrameWidth, m_FrameHeight);
+	m_pPlayer->drawWithAnimation(m_RectPosition_x, m_RectPosition_y);
+
+	//Renders Shots
+	//
+	std::list<CLaser>::iterator it = m_LaserList.begin();
+
+	while (it != m_LaserList.end()) {
+
+		it->Update();
+
+		if (it->isAlive()) {
+
+			if (m_look_direction == 'l'){
+			it->Render(-30, m_FrameHeight / 2);
+			}
+			else {
+			it->Render(m_FrameWidth + 5, m_FrameHeight / 2);
+			}
+			it++;
+		}
+		else {
+			it = m_LaserList.erase(it);
+		}
+
+	}//Render Shots
 
 }//PlayerRender
+
+
+
 
 //SetPlayerPosition
 //
@@ -34,6 +99,10 @@ void CPlayer::PlayerPostion(float fPos_x, float fPos_y) {
 }//PlayerPosition
 
 
+
+
+//PlayerAnimation()
+//
 void CPlayer::PlayerAnimation() {
 	
 	if (m_fAnimationPhase >= max_ColumnPlayer + 1) {
@@ -50,13 +119,15 @@ void CPlayer::PlayerAnimation() {
 
 	}
 
-}
+}//PlayerAnimation
+
+
+
 
 //PlayerMoving
 //
 void CPlayer::PlayerMoving() {
 
-	keyState = SDL_GetKeyboardState(NULL);
 
 	PlayerCheckPosition(1080, 720);
 
@@ -66,6 +137,8 @@ void CPlayer::PlayerMoving() {
 	if (keyState[SDL_SCANCODE_RIGHT]){
 		
 		m_Row = 3;
+		m_look_direction = 'r';
+
 		m_fPlayerPostion_x += (m_fMoveSpeed * g_pTimer->GetElapsed());
 		PlayerAnimation();
 		m_pPlayer->setSpritePosition(static_cast<int>(m_fPlayerPostion_x), static_cast<int>(m_fPlayerPostion_y));
@@ -76,6 +149,7 @@ void CPlayer::PlayerMoving() {
 	if (keyState[SDL_SCANCODE_LEFT]) {
 		m_fPlayerPostion_x -= m_fMoveSpeed * g_pTimer->GetElapsed();
 		m_Row = 2;
+		m_look_direction = 'l';
 
 		PlayerAnimation();
 
@@ -106,6 +180,9 @@ void CPlayer::PlayerMoving() {
 
 }//PlayerMoving
 
+
+
+
 //PlayerCheckPosition
 //
 //Checks if Player is out of Screen
@@ -129,3 +206,33 @@ void CPlayer::PlayerCheckPosition(int ScreenWidht, int ScreenHeight) {
 	}
 
 }//PlayerCheckPosition
+
+
+
+
+//PlayerShooting
+//
+void CPlayer::PlayerShooting() {
+
+	if (keyState[SDL_SCANCODE_SPACE] && (m_bShotLock == false)) {
+
+		CLaser Laser(m_pLaser, m_fPlayerPostion_x, m_fPlayerPostion_y);
+
+		if (m_look_direction == 'l') {
+			Laser.setDirection('l');
+		}
+		else if (m_look_direction == 'r'){
+			Laser.setDirection('r');
+		}
+
+		m_LaserList.push_back(Laser);
+		//std::cout << m_LaserList.size() << std::endl;
+		m_bShotLock = true;
+
+	}
+
+	if (!keyState[SDL_SCANCODE_SPACE]) {
+		m_bShotLock = false;
+	}
+
+}
