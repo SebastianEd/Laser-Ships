@@ -33,7 +33,7 @@ private:
 	CSprite *m_pLaser = nullptr;
 
 	bool m_bShotLock;
-	char m_look_direction = 'r';
+	char m_LineOfSight = 'r';
 
 	std::list<CLaser> m_LaserList;
 
@@ -51,6 +51,10 @@ private:
 	//Position on the Screen
 	float m_fPlayerPostion_x = 0;
 	float m_fPlayerPostion_y = 0;
+
+	//Position where the Laser will be rendered
+	float m_fLaserPosition_x;
+	float m_fLaserPosition_y;
 
 	//Column and Row of the Animation Sprite
 	int m_Column;

@@ -92,6 +92,14 @@ bool CFramework::Init() {
 	return true;
 }//Init
 
+//Update
+//
+void CFramework::Update() {
+	SDL_PumpEvents();
+	pollEvents();
+	Clear();
+	g_pTimer->Update();
+}//
 
 //pollEvents
 //
@@ -108,8 +116,8 @@ void CFramework::pollEvents() {
 			break;
 
 		}
-
 	}
+
 }//pollEvents
 
 //Clear
@@ -117,7 +125,7 @@ void CFramework::pollEvents() {
 void CFramework::Clear() const {
 
 	SDL_RenderPresent(m_pRenderer);
-	SDL_SetRenderDrawColor(m_pRenderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 
 }//Clear

@@ -1,78 +1,108 @@
 #include "Laser.h"
 
-
-
 //Constructor
 //
 CLaser::CLaser(CSprite *pShotSprite, float fPos_x, float fPos_y) :
 	m_pShotSprite(pShotSprite), m_fPos_x(fPos_x), m_fPos_y(fPos_y){
 
+	m_pShotSprite->configFrameSize(LaserFrameWidth, LaserFrameHeight);
+
 	m_Rect.x = static_cast<int>(fPos_x);
 	m_Rect.y = static_cast<int>(fPos_y);
 
-	setFrameSize();
-
 	m_bIsAlive = true;
+	m_LineOfSight = 'r';	//Default line of sight
 
 }//Constructor
 
+
+
+
+//setDirection
+//
+//sets the line of sight. Can be either a char 'r' or 'l'
+//
 void CLaser::setDirection(char Direction){
-	m_look_direction = Direction;
-}
+	
+	if ((Direction != 'r') && (Direction != 'l')) {
+		std::cerr << "Error: Direction of function 'setDirection' called from the class CLaser must be either 'r' or 'l'!\n";
+	}
+	else {
+		m_LineOfSight = Direction;
+	}
+}//setDirection
 
-//Update
-//
-//Moves Shot
-//
-void CLaser::Update() {
 
-	if (m_fAnimationPhase >= max_Row) {
-		m_fAnimationPhase = m_fAnimationPhase - max_Row;
+
+
+//Animation
+//
+//Handles the AnimationPhase of the lasers sprite
+//
+void CLaser::Animation() {
+
+	//Handles the columns
+	if (m_fAnimationPhase >= max_Column) {
+		m_fAnimationPhase = m_fAnimationPhase - max_Column;
 	}
 
-	if (m_Row >= max_Row) {
-		m_Row = 1;
+	if (m_Column >= max_Column) {
+		m_Column = 1;
 	}
 	else {
 
-		m_Row = static_cast<int>(m_fAnimationPhase);
-		m_fAnimationPhase += 150 * g_pTimer->GetElapsed();
-
+		m_Column = static_cast<int>(m_fAnimationPhase);
+		m_fAnimationPhase += 200 * g_pTimer->GetElapsed();
 	}
 
+}//Animation
 
-	
-	if(m_look_direction == 'l'){
+
+
+
+//Update
+//
+//Moves laser
+//
+void CLaser::Update() {
+
+	Animation();
+
+	//Line of sight: LEFT
+	if(m_LineOfSight == 'l'){
 		m_fPos_x -= m_fMoveSpeed * g_pTimer->GetElapsed();
 		m_Rect.x = static_cast<int>(m_fPos_x);
 	
 		if (m_fPos_x < 0.0f) {
 			m_bIsAlive = false;
 		}
-	}
+		m_pShotSprite->setSpritePosition(m_fPos_x, m_fPos_y);
+	}//Line of sight: LEFT
 
-	if (m_look_direction == 'r') {
+
+	 //Line of sight: RIGHT
+	if (m_LineOfSight == 'r') {
 		m_fPos_x += m_fMoveSpeed * g_pTimer->GetElapsed();
 		m_Rect.x = static_cast<int>(m_fPos_x);
 
 		if (m_fPos_x > 1080.0f) {
 			m_bIsAlive = false;
 		}
-
 		m_pShotSprite->setSpritePosition(m_fPos_x, m_fPos_y);
-	}
+	}//Line of sight: RIGHT
 }//Update
 
 
-//Render Shot
+
+
+
+//Render laser
 //
-void CLaser::Render(int x, int y) {
+void CLaser::Render() {
 	if (m_bIsAlive == true) {
 
-		m_Rect.x = m_fPos_x + x;
-		m_Rect.y = m_fPos_y + y;
-		
-		m_pShotSprite->drawWithoutAnimation(m_Rect);
+		m_Rect_x = 25 * m_Column;
+		m_pShotSprite->drawWithAnimation(m_Rect_x, 0);
 	}
 }//Render
 
