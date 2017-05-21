@@ -13,7 +13,44 @@ CLaser::CLaser(CSprite *pShotSprite, float fPos_x, float fPos_y) :
 	m_bIsAlive = true;
 	m_LineOfSight = 'r';	//Default line of sight
 
+	
+	m_pSound = nullptr;
+	m_pSound = new CSound;
+	m_pSound->playSoundEffect("resources/shot.wav");
+
+	//std::cout << "CLaser Konstruktor aufgerufen\n";
+
 }//Constructor
+
+
+
+
+//Destructor
+//
+//Only used for debugging since yet.
+//
+CLaser::~CLaser() {
+
+	//std::cout << "CLaser Destruktor aufgerufen\n";
+
+}//Destructor
+
+
+
+
+//freeResources
+//
+//Needed, because there's a bug (I assume within the CPlayer class) which calls the Destructor of CLaser too early 
+//and when one time again, when it should be called.
+//
+void CLaser::freeResources() {
+
+	if ((m_pSound != nullptr)) {
+		delete(m_pSound);
+		m_pSound = nullptr;
+	}
+
+}//freeResources
 
 
 
@@ -30,6 +67,7 @@ void CLaser::setDirection(char Direction){
 	else {
 		m_LineOfSight = Direction;
 	}
+
 }//setDirection
 
 

@@ -9,6 +9,7 @@ CFramework::CFramework(int ScreenWidth, int ScreenHeight, bool bFullscreen) :
 	if (!Init()) {
 		m_Closed = true;
 	}
+
 }//Constructor
 
 //Destructor
@@ -18,6 +19,7 @@ CFramework::~CFramework() {
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
 	IMG_Quit();
+	Mix_Quit();
 	SDL_Quit();
 
 }//Destructor 
@@ -30,7 +32,7 @@ CFramework::~CFramework() {
 bool CFramework::Init() {
 
 	//Initialize systems of the SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) != 0) {
 		
 		std::cerr << "SDL couldn't be initialized!\n";
 		std::cerr << "Error: " << SDL_GetError() << std::endl;

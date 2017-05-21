@@ -3,11 +3,12 @@
 //Constructor
 //
 CPlayer::CPlayer(const CFramework &framework, int Column, int Row, int FrameWidth, int FrameHeight) :
-	CFramework(framework), m_FrameWidth(FrameWidth), m_FrameHeight(FrameHeight), m_Column(Column), m_Row(Row), m_fAnimationPhase(Column)
+	CFramework(framework), m_FrameWidth(FrameWidth), m_FrameHeight(FrameHeight), m_Column(Column), m_Row(Row), m_fAnimationPhase(static_cast<float>(Column))
 {
 
 	m_pPlayer = new CSprite(framework, FrameWidth, FrameHeight,  "resources/SpaceShip.png");
 	m_pLaser = new CSprite(framework, 0, 0, "resources/LaserAnimated3.png");
+
 
 	keyState = SDL_GetKeyboardState(NULL);
 
@@ -63,20 +64,16 @@ void CPlayer::PlayerRender() {
 
 		if (it->isAlive()) {
 
-			if (m_LineOfSight == 'l') {
-				it->Render();
-			}
-			else {
-				it->Render();
-			}
+			it->Render();
 			it++;
 		}
 		else {
+			it->freeResources();
 			it = m_LaserList.erase(it);
 		}
 
-	}//Render Shots
-
+	}//Render Shots 
+	
 	m_RectPosition_x = m_FrameWidth * (m_Column - 1);
 	m_RectPosition_y = m_FrameHeight * (m_Row - 1);
 
@@ -145,7 +142,7 @@ void CPlayer::PlayerMoving() {
 
 		m_fPlayerPostion_x += (m_fMoveSpeed * g_pTimer->GetElapsed());
 		//PlayerAnimation();
-		m_pPlayer->setSpritePosition(static_cast<int>(m_fPlayerPostion_x), static_cast<int>(m_fPlayerPostion_y));
+		m_pPlayer->setSpritePosition(m_fPlayerPostion_x, m_fPlayerPostion_y);
 	
 	}//Pressing Right Key
 
@@ -241,7 +238,7 @@ void CPlayer::PlayerCheckPosition(int ScreenWidht, int ScreenHeight) {
 		m_fPlayerPostion_x = 0.0f;
 	}
 	else if (m_fPlayerPostion_x > (ScreenWidht - m_FrameWidth)) {
-		m_fPlayerPostion_x = (ScreenWidht - m_FrameWidth);
+		m_fPlayerPostion_x = static_cast<float>(ScreenWidht - m_FrameWidth);
 	}
 
 	//Checks top and bottom borders
@@ -249,7 +246,7 @@ void CPlayer::PlayerCheckPosition(int ScreenWidht, int ScreenHeight) {
 		m_fPlayerPostion_y = 0.0f;
 	}
 	else if (m_fPlayerPostion_y > (ScreenHeight - m_FrameHeight)) {
-		m_fPlayerPostion_y = (ScreenHeight - m_FrameHeight);
+		m_fPlayerPostion_y = static_cast<float>(ScreenHeight - m_FrameHeight);
 	}
 
 }//PlayerCheckPosition
@@ -272,8 +269,8 @@ void CPlayer::PlayerShooting() {
 			m_fLaserPosition_y = m_fPlayerPostion_y - 5;
 		}
 
-
-		CLaser Laser(m_pLaser, m_fLaserPosition_x, m_fLaserPosition_y);
+		CLaser Laser(m_pLaser,  m_fLaserPosition_x, m_fLaserPosition_y);
+	
 
 		if (m_LineOfSight == 'l') {
 			Laser.setDirection('l');
@@ -283,9 +280,8 @@ void CPlayer::PlayerShooting() {
 		}
 
 		m_LaserList.push_back(Laser);
-		//std::cout << m_LaserList.size() << std::endl;
 		m_bShotLock = true;
-
+		
 	}
 
 	if (!keyState[SDL_SCANCODE_SPACE]) {

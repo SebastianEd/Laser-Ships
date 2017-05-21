@@ -1,7 +1,5 @@
 ﻿  Player.cpp
-c:\users\sebie\desktop\laser-ships\laser-ships\player.cpp(7): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\sebie\desktop\laser-ships\laser-ships\player.cpp(148): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\sebie\desktop\laser-ships\laser-ships\player.cpp(244): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\sebie\desktop\laser-ships\laser-ships\player.cpp(252): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Laser.cpp
+  Generating Code...
   Laser-Ships.vcxproj -> C:\Users\sebie\Desktop\Laser-Ships\Laser-Ships\Debug\Laser-Ships.exe
   Laser-Ships.vcxproj -> C:\Users\sebie\Desktop\Laser-Ships\Laser-Ships\Debug\Laser-Ships.pdb (Partial PDB)
