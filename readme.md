@@ -2,7 +2,7 @@
 
 ***
 
-<p style="color: blue;">This Projrect is supposed to be a simple 2D Side-Scroll spaceshooter developed with C++ and the SDL 2.0!</p>
+<p style="color: blue;">This Project is supposed to be a simple 2D Side-Scroll spaceshooter developed with C++ and the SDL 2.0!</p>
 <p>There's nothing to see at all since the Project is in a very early state. But if you notice any mistakes, errors you think I could make something better, please tell me :)!</p>
 <br>
 <p style="color: blue;">Features: </p>
