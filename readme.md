@@ -12,10 +12,9 @@
 		<li>You can add Music and Sound with the Sound.h</li>
 	</ul>
 
-<br><br>
+<br>
 <p> Info: You've to add your own backgroundmusic. Just put it into the resource folder and change the path in the main.cpp file :) </p>
 
-<br>
 <br>
 
 <p>IDE: Visual Studio 2017</p>
