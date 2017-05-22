@@ -27,6 +27,8 @@ int main(int argc, char **argv) {
 
 	}
 
+	Music.CleanUp();
+
 
 	return 0;	
 }

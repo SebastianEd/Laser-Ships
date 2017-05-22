@@ -19,12 +19,6 @@ CFramework::~CFramework() {
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
 	IMG_Quit();
-
-	//Should Close Audio and Quit the mixer
-	//I hope this is correctly done
-	Mix_CloseAudio();
-	Mix_Quit();
-
 	SDL_Quit();
 
 }//Destructor 

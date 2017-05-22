@@ -14,6 +14,7 @@ public:
 	void playBGM(const std::string &filePath);
 	void playSoundEffect(const std::string &filePath);
 	void CleanUp();
+	void freeMusic();
 
 private:
 
