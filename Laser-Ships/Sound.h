@@ -13,7 +13,7 @@ public:
 
 	void playBGM(const std::string &filePath);
 	void playSoundEffect(const std::string &filePath);
-	void mixerQuit() { Mix_Quit(); };
+	void CleanUp();
 
 private:
 

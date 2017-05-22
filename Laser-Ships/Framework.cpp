@@ -19,6 +19,7 @@ CFramework::~CFramework() {
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
 	IMG_Quit();
+	Mix_CloseAudio();
 	Mix_Quit();
 	SDL_Quit();
 

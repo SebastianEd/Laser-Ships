@@ -13,6 +13,10 @@ CSound::CSound() {
 
 }//Constructor
 
+void CSound::CleanUp() {
+	Mix_CloseAudio();
+
+}
 
 
 //Destructor
@@ -24,8 +28,12 @@ CSound::~CSound() {
 		m_pSoundEffect = nullptr;
 	}
 
-	if (m_pBMG != nullptr) {
+	if (!Mix_QuerySpec(0, 0, 0)){
 		Mix_FreeMusic(m_pBMG);
+	}
+
+	if (m_pBMG != nullptr) {
+		//Mix_FreeMusic(m_pBMG);
 		m_pBMG = nullptr;
 	}
 
