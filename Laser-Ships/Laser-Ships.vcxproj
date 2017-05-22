@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Astroid.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LoadSprites.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astroid.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="LoadSprites.h" />
