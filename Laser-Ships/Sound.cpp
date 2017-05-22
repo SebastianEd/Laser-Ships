@@ -28,11 +28,13 @@ CSound::~CSound() {
 		m_pSoundEffect = nullptr;
 	}
 
+	//I'm not really sure what this does, but I read at Stack Overflow that this returns if the music was freed or not
 	if (!Mix_QuerySpec(0, 0, 0)){
 		Mix_FreeMusic(m_pBMG);
 	}
 
 	if (m_pBMG != nullptr) {
+		//This gives me an error when I close the Programm
 		//Mix_FreeMusic(m_pBMG);
 		m_pBMG = nullptr;
 	}
