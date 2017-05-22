@@ -1,5 +1,8 @@
-﻿  Sound.cpp
-  Framework.cpp
+﻿  main.cpp
+  Sound.cpp
   Generating Code...
+  Skipping... (no relevant changes detected)
+  Player.cpp
+  Laser.cpp
   Laser-Ships.vcxproj -> C:\Users\sebie\Desktop\Laser-Ships\Laser-Ships\Debug\Laser-Ships.exe
   Laser-Ships.vcxproj -> C:\Users\sebie\Desktop\Laser-Ships\Laser-Ships\Debug\Laser-Ships.pdb (Partial PDB)

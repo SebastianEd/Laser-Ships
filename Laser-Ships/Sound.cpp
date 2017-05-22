@@ -40,6 +40,12 @@ void CSound::freeMusic() {
 		Mix_FreeMusic(m_pBMG);
 		m_pBMG = nullptr;
 	}
+
+	//You never can be sure enough to free your memory :D
+	if (m_pSoundEffect != nullptr) {
+		Mix_FreeChunk(m_pSoundEffect);
+		m_pSoundEffect = nullptr;
+	}
 }
 
 

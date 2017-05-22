@@ -23,4 +23,3 @@ private:
 
 };
 
-static int Counter = 0;
