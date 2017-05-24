@@ -5,10 +5,10 @@
 #include "Laser.h"
 #include <list>
 
-#define max_ColumnPlayer 4		//Defines the Number of Columns of the Player Sprite
+#define max_ColumnPlayer 6		//Defines the Number of Columns of the Player Sprite
 
 
-class CPlayer : public CFramework {
+class CPlayer{
 
 public:
 
@@ -17,7 +17,7 @@ public:
 
 	void PlayerPostion(float fPos_x, float fPos_y);
 	void PlayerUpdate();
-
+	std::list<CLaser> *getLaserList() { return &m_LaserList; };
 
 private:
 

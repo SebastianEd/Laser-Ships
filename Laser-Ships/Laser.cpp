@@ -9,6 +9,8 @@ CLaser::CLaser(CSprite *pShotSprite, float fPos_x, float fPos_y) :
 
 	m_Rect.x = static_cast<int>(fPos_x);
 	m_Rect.y = static_cast<int>(fPos_y);
+	m_Rect.w = 25;
+	m_Rect.h = 20;
 
 	m_bIsAlive = true;
 	m_LineOfSight = 'r';	//Default line of sight
@@ -80,11 +82,11 @@ void CLaser::setDirection(char Direction){
 void CLaser::Animation() {
 
 	//Handles the columns
-	if (m_fAnimationPhase >= max_Column) {
-		m_fAnimationPhase = m_fAnimationPhase - max_Column;
+	if (m_fAnimationPhase >= max_ColumnLaser) {
+		m_fAnimationPhase = m_fAnimationPhase - max_ColumnLaser;
 	}
 
-	if (m_Column >= max_Column) {
+	if (m_Column >= max_ColumnLaser) {
 		m_Column = 1;
 	}
 	else {
@@ -140,9 +142,9 @@ void CLaser::Render() {
 	if (m_bIsAlive == true) {
 
 		m_Rect_x = 25 * m_Column;
+		m_Rect.y = static_cast<int>(m_fPos_y);
+		m_Rect.x = static_cast<int>(m_fPos_x);
 		m_pShotSprite->drawWithAnimation(m_Rect_x, 0);
 	}
 }//Render
-
-
 

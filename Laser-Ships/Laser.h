@@ -3,9 +3,9 @@
 #include "LoadSprites.h"
 #include "Framework.h"
 #include "Sound.h"
-#include "Test.h"
+#include "Astroid.h"
 
-#define max_Column			6		//set 1 if you've got no sprite sheet for animations, but a single sprite
+#define max_ColumnLaser			6		//set 1 if you've got no sprite sheet for animations, but a single sprite
 #define LaserFrameWidth		20		//set frame width of the lasers sprite
 #define LaserFrameHeight	25		//set frame height of the lasers sprite
 
@@ -21,12 +21,12 @@ public:
 	void Update();
 	void Render();
 	bool isAlive() { return m_bIsAlive; };
+	SDL_Rect getRect() { return m_Rect; };
+	void setIsAlive(bool set) { m_bIsAlive = set; }
 
 private:
 
 	void Animation();
-
-	CTest *test = nullptr;
 
 	CSprite *m_pShotSprite = nullptr;		//Pointer to the lasers sprite
 	CSound *m_pSound = nullptr;				//Pointer for the lasers sound - is played in the constructor

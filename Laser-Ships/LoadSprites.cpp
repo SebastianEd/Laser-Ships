@@ -23,6 +23,8 @@ CSprite::CSprite(const CFramework &framework, int FrameWidth, int FrameHeight, c
 	configFrameSize(FrameWidth, FrameHeight);
 
 	SDL_FreeSurface(surface);
+
+	std::cout << "Loaded Sprite\n";
 }//ConstructImage
 
 

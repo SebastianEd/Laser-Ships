@@ -3,11 +3,11 @@
 //Constructor
 //
 CPlayer::CPlayer(const CFramework &framework, int Column, int Row, int FrameWidth, int FrameHeight) :
-	CFramework(framework), m_FrameWidth(FrameWidth), m_FrameHeight(FrameHeight), m_Column(Column), m_Row(Row), m_fAnimationPhase(static_cast<float>(Column))
+	m_FrameWidth(FrameWidth), m_FrameHeight(FrameHeight), m_Column(Column), m_Row(Row), m_fAnimationPhase(static_cast<float>(Column))
 {
 
 	m_pPlayer = new CSprite(framework, FrameWidth, FrameHeight,  "resources/SpaceShip.png");
-	m_pLaser = new CSprite(framework, 0, 0, "resources/LaserAnimated3.png");
+	m_pLaser = new CSprite(framework, 0, 0, "resources/LaserAnimated2.png");
 
 
 	keyState = SDL_GetKeyboardState(NULL);

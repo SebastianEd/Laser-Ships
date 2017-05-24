@@ -98,8 +98,8 @@ bool CFramework::Init() {
 void CFramework::Update() {
 	SDL_PumpEvents();
 	pollEvents();
-	Clear();
 	g_pTimer->Update();
+	Clear();
 }//
 
 //pollEvents
